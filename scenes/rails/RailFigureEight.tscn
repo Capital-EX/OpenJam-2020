@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 304, 71, -0.196237, -50.3859, 0.196237, 50.3859, 240, 121, -0.196063, -49.7771, 0.196063, 49.7771, 368, 221, 0, 0, 0, 0, 304, 269, 0.31498, 50.0819, -0.31498, -50.0819, 240, 221, 0, 50.2394, 0, -50.2394, 368, 121, 0, 0, 0, 0, 304, 71 )
+}
+
+[node name="RailFigureEight" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [ 171.0, 71.0, 269.0, 121.0, 221.0 ],
+"_edit_vertical_guides_": [ 304.0, 240.0, 368.0 ]
+}
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 1 )

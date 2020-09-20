@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -104, -44, 0, 0, 0, 0, -104, 51 )
+}
+
+[node name="RailTripleLines" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [ 217.0, 342.0, 171.0 ],
+"_edit_vertical_guides_": [ 304.0, 608.0 ]
+}
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2( 317, 166 )
+curve = SubResource( 1 )
+
+[node name="Path2D2" type="Path2D" parent="."]
+position = Vector2( 408, 167 )
+curve = SubResource( 1 )
+
+[node name="Path2D3" type="Path2D" parent="."]
+position = Vector2( 504, 163 )
+curve = SubResource( 1 )

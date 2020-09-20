@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0.994828 ), 0.0, 8.69576, 0, 0, Vector2( 0.251185, 0.649374 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.413534, 0.41604, 0.766917, 0.769424 )
+colors = PoolColorArray( 0.964706, 0.803922, 0.14902, 1, 0.964706, 0.803922, 0.14902, 1, 0.67451, 0.419608, 0.14902, 1, 0.67451, 0.419608, 0.14902, 1, 0.337255, 0.196078, 0.14902, 1 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends CPUParticles2D
+
+func _ready():
+	$Timer.wait_time = lifetime
+	$Timer.connect(\"timeout\", self, \"_on_timer_timeout\", [], CONNECT_ONESHOT)
+	$Timer.start()
+
+func _on_timer_timeout():
+	queue_free()
+"
+
+[node name="HitParticles" type="CPUParticles2D"]
+amount = 16
+lifetime = 0.75
+explosiveness = 1.0
+lifetime_randomness = 0.85
+flag_align_y = true
+spread = 180.0
+initial_velocity = 75.0
+initial_velocity_random = 0.32
+scale_amount = 5.0
+scale_amount_random = 0.92
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+script = SubResource( 3 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.75
