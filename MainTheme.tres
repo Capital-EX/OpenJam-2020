@@ -1,0 +1,32 @@
+[gd_resource type="Theme" load_steps=7 format=2]
+
+[ext_resource path="res://CompassGold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://imgs/hudbg.png" type="Texture" id=2]
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 48, 48 )
+margin_left = 13.1367
+margin_right = 13.3653
+margin_top = 11.9516
+margin_bottom = 11.9516
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.172549, 0.113725, 0.113725, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.74902, 0.262745, 0.188235, 1 )
+expand_margin_right = 1.0
+
+[sub_resource type="DynamicFont" id=5]
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[resource]
+default_font = SubResource( 5 )
+PanelContainer/styles/panel = SubResource( 2 )
+ProgressBar/colors/font_color = Color( 0.94, 0.94, 0.94, 1 )
+ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
+ProgressBar/fonts/font = null
+ProgressBar/styles/bg = SubResource( 3 )
+ProgressBar/styles/fg = SubResource( 4 )

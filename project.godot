@@ -19,10 +19,15 @@ config/name="Rain Hell"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Angels="*res://autoload/Angels.gd"
+
 [display]
 
 window/size/width=608
 window/size/height=342
+window/size/fullscreen=true
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 

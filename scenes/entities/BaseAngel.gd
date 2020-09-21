@@ -22,7 +22,6 @@ var PathFollowNode := PathFollow2D.new()
 var Path2DNode : Path2D = null
 var health : int = 4
 var interpolate_progress : float = 0.0
-var original_color : Color = modulate
 
 onready var ShakeNode = $Sprite/Shake
 onready var BlinkNode = $Blink
@@ -81,6 +80,7 @@ func rehoming(delta):
 
 func prep(target_position: Vector2):
 	self.raise()
+	PulseNode.play("agro-pulse")
 	change_state(State.Prepping)
 	
 func attack(target_position: Vector2):
@@ -160,15 +160,11 @@ func spawn():
 	
 	state = State.Spawning
 
-func start_pulse():
-	PulseNode.play("agro-pulse")
-	
-func stop_pulse():
-	PulseNode.stop()
-
 func change_state(new_state: int):
 	state = new_state
 	interpolate_progress = 0.0
-			
+	match state:
+		State.Rehoming:
+			PulseNode.play("reset")
 	
 

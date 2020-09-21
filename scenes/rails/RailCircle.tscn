@@ -8,6 +8,6 @@ _data = {
 [node name="RailCircle" type="Node2D"]
 
 [node name="Path2D" type="Path2D" parent="."]
-position = Vector2( 305, 171 )
-scale = Vector2( 1.6237, 1.5973 )
+position = Vector2( 305, 131 )
+scale = Vector2( 1.4, 1.4 )
 curve = SubResource( 1 )

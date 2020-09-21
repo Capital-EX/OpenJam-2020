@@ -1,38 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/entities/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
 [ext_resource path="res://imgs/temp-background.png" type="Texture" id=3]
 [ext_resource path="res://imgs/cross-hair.png" type="Texture" id=4]
 [ext_resource path="res://imgs/hudbg.png" type="Texture" id=5]
-[ext_resource path="res://CompassGold.ttf" type="DynamicFontData" id=6]
-
-[sub_resource type="Curve2D" id=1]
-_data = {
-"points": PoolVector2Array( 24.8834, -0.841669, -24.8834, 0.841669, 260, 201.874, 0, 0, 0, 0, 205, 195.639, 14.6916, 15.9172, -14.6916, -15.9172, 186, 179.607, -14.8651, 32.4693, 14.8651, -32.4693, 172, 94.0984, -32.1086, 0.259936, 32.1086, -0.259936, 255, 46, -11.8921, -26.481, 11.8921, 26.481, 341, 90, 13.0781, -24.9465, -13.0781, 24.9465, 338, 173.372, 27.7183, -1.68334, -27.7183, 1.68334, 260, 202.765 )
-}
-
-[sub_resource type="StyleBoxTexture" id=2]
-
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.172549, 0.113725, 0.113725, 1 )
-
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.74902, 0.262745, 0.188235, 1 )
-expand_margin_right = 1.0
-
-[sub_resource type="DynamicFont" id=5]
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 6 )
-
-[sub_resource type="Theme" id=6]
-default_font = SubResource( 5 )
-PanelContainer/styles/panel = SubResource( 2 )
-ProgressBar/colors/font_color = Color( 0.94, 0.94, 0.94, 1 )
-ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
-ProgressBar/fonts/font = null
-ProgressBar/styles/bg = SubResource( 3 )
-ProgressBar/styles/fg = SubResource( 4 )
+[ext_resource path="res://MainTheme.tres" type="Theme" id=6]
 
 [sub_resource type="StyleBoxTexture" id=7]
 texture = ExtResource( 5 )
@@ -56,23 +29,16 @@ z_index = -4096
 texture = ExtResource( 3 )
 centered = false
 
-[node name="Enemies" type="Node2D" parent="."]
-
-[node name="Path2D" type="Path2D" parent="."]
-position = Vector2( 59, -1 )
-scale = Vector2( 1, 1.1227 )
-curve = SubResource( 1 )
-
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( -128, -3 )
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.333
 
 [node name="CrossHair" type="Sprite" parent="."]
 position = Vector2( -164, 136 )
 z_index = 4096
 texture = ExtResource( 4 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -81,7 +47,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -54.0
-theme = SubResource( 6 )
+theme = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -89,13 +55,13 @@ __meta__ = {
 [node name="Background" type="Panel" parent="CanvasLayer/Container"]
 margin_right = 608.0
 margin_bottom = 54.0
-theme = SubResource( 6 )
+theme = ExtResource( 6 )
 custom_styles/panel = SubResource( 7 )
 
 [node name="Hud" type="CenterContainer" parent="CanvasLayer/Container"]
 margin_right = 608.0
 margin_bottom = 54.0
-theme = SubResource( 6 )
+theme = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

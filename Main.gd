@@ -1,7 +1,7 @@
 extends Node2D
-const ProtoAngel = preload("res://scenes/entities/ProtoAngel.tscn")
-const AMMO_FORMAT = "Ammo %d/%d"
-const HEALTH_FORMAT = "HEALTH %d/%d"
+const RingGroup := preload("res://scenes/enemy-groups/RingGroup.tscn")
+const AMMO_FORMAT := "Ammo %d/%d"
+const HEALTH_FORMAT := "HEALTH %d/%d"
 
 var spawning := 10
 var max_ammo := 5
@@ -14,21 +14,21 @@ onready var HealthBar := $CanvasLayer/Container/Hud/HealthContainer/HealthBar
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	PlayerNode.connect("shoot", self, "_on_shoot")
-	$Timer.connect("timeout", self, "_on_timer_timeout")
+	$Timer.connect("timeout", self, "_on_timer_timeout", [], CONNECT_ONESHOT)
 	$Timer.start()
 	HealthLabel.text = HEALTH_FORMAT % [PlayerNode.health, max_health]
 
 func _on_timer_timeout():
-	spawning -= 1
-	var proto_angel := ProtoAngel.instance()
-	$Enemies.add_child(proto_angel)
-	proto_angel.connect("shot", self, "_on_angel_shot")
-	proto_angel.set_path_2d($Path2D)
-	proto_angel.spawn()
-	if spawning > 0:
-		$Timer.start()
-	else:
-		$Timer.disconnect("timeout", self, "_on_timer_timeout")
+	var enemies := RingGroup.instance()
+	enemies.PlayerNode = PlayerNode
+	enemies.spawn_sequence = [
+		Angels.ProtoAngel,
+		Angels.ProtoAngel,
+		Angels.ProtoAngel,
+		Angels.ProtoAngel,
+		Angels.ProtoAngel,
+	]
+	add_child(enemies)
 
 func _on_shoot(bullet):
 	add_child(bullet)

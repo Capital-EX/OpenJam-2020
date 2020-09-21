@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/entities/Player.gd" type="Script" id=1]
 [ext_resource path="res://imgs/gun-shot.png" type="Texture" id=2]
@@ -376,6 +376,9 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
+[sub_resource type="CircleShape2D" id=9]
+radius = 16.0312
+
 [node name="Player" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -383,7 +386,6 @@ script = ExtResource( 1 )
 texture = ExtResource( 3 )
 vframes = 4
 hframes = 4
-frame = 3
 region_rect = Rect2( 202, 18, 111, 103 )
 
 [node name="GunShotSprite" type="Sprite" parent="PlayerSprite"]
@@ -392,8 +394,10 @@ position = Vector2( 52, -61 )
 texture = ExtResource( 2 )
 offset = Vector2( 14, -8 )
 hframes = 4
+frame = 3
 
 [node name="Tween" type="Tween" parent="."]
+playback_process_mode = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "down-left"
@@ -408,3 +412,8 @@ anims/gun-shot-down-left = SubResource( 6 )
 anims/gun-shot-down-right = SubResource( 7 )
 anims/gun-shot-up-left = SubResource( 8 )
 anims/gun-shot-up-right = SubResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 9 )
