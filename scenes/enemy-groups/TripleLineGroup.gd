@@ -125,7 +125,7 @@ func _on_attack_timer_timeout():
 			for _j in range(len(angel_list)):
 				angel_list.append(attacker)
 				attacker = angel_list.pop_front()
-				if attacker != null or attacker.state == 1:
+				if attacker != null and attacker.state == 1:
 					break
 			if attacker == null or attacker.state != 1:
 				break
