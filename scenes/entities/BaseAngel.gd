@@ -80,33 +80,13 @@ func rehoming(delta):
 
 func prep(target_position: Vector2):
 	self.raise()
-	PulseNode.play("agro-pulse")
 	change_state(State.Prepping)
 	
 func attack(target_position: Vector2):
-	var angle = position.angle_to_point(target_position)
-	var pull_back_position = 100 * Vector2(cos(angle), sin(angle))
-	$Tween.interpolate_property(
-		self, "position", 
-		position, position + pull_back_position, 
-		PULL_BACK_SPEED, Tween.TRANS_CUBIC, Tween.EASE_OUT, PULL_BACK_WAIT
-	)
-	$Tween.connect("tween_all_completed", self, "lunge", [target_position], CONNECT_ONESHOT)
-	$Tween.start()
+	pass
 	
 func lunge(target_position: Vector2):
-	$Tween.interpolate_property(
-		self, "position", 
-		position, target_position, 
-		ATTACK_SPEED, Tween.TRANS_CUBIC, Tween.EASE_OUT, ATTACK_DELAY
-	)
-	$Tween.connect("tween_all_completed", self, "change_state", [State.Rehoming], CONNECT_ONESHOT)
-	$Tween.connect("tween_started", self, "_on_tween_start", [], CONNECT_ONESHOT)
-	$Tween.start()
-
-func _on_tween_start(_a, _b):
-	emit_signal("attack_completed", self)
-
+	pass
 
 func check_hit():
 	pass

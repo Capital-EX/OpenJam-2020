@@ -1,0 +1,121 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://imgs/SpikerAngel.png" type="Texture" id=1]
+[ext_resource path="res://scenes/entities/ProtoAngel.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 33.2415
+
+[sub_resource type="Animation" id=2]
+length = 0.5
+loop = true
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.125, 0.25, 0.375 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.754902, 0.754902, 1 ), Color( 1, 0.576471, 0.576471, 1 ), Color( 1, 0.754902, 0.754902, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.166667
+step = 0.166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.166667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.5
+loop = true
+step = 0.0625
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.125, 0.25, 0.375 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.754902, 0.754902, 1 ), Color( 1, 0.576471, 0.576471, 1 ), Color( 1, 0.754902, 0.754902, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.166667
+step = 0.166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.166667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="SkiperAngel" type="Area2D" groups=[
+"Angels",
+"ProtoAngels",
+]]
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]
+playback_process_mode = 0
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 2
+__meta__ = {
+"_edit_horizontal_guides_": [ -6.0, 19.0 ],
+"_edit_vertical_guides_": [ -11.0, 13.0 ]
+}
+
+[node name="Shake" type="Tween" parent="Sprite"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 3 )
+shape = SubResource( 1 )
+
+[node name="Blink" type="AnimationPlayer" parent="."]
+anims/agro-pulse = SubResource( 2 )
+anims/blink = SubResource( 3 )
+
+[node name="Pulse" type="AnimationPlayer" parent="."]
+anims/agro-pulse = SubResource( 4 )
+anims/blink = SubResource( 5 )
+anims/reset = SubResource( 6 )

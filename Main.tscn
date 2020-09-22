@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/entities/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
@@ -6,8 +6,10 @@
 [ext_resource path="res://imgs/cross-hair.png" type="Texture" id=4]
 [ext_resource path="res://imgs/hudbg.png" type="Texture" id=5]
 [ext_resource path="res://MainTheme.tres" type="Theme" id=6]
+[ext_resource path="res://audio/embers.ogg" type="AudioStream" id=7]
+[ext_resource path="res://imgs/light.png" type="Texture" id=8]
 
-[sub_resource type="StyleBoxTexture" id=7]
+[sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 5 )
 region_rect = Rect2( 0, 0, 48, 48 )
 margin_left = 16.2858
@@ -16,6 +18,21 @@ margin_top = 16.321
 margin_bottom = 15.9357
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
+
+[sub_resource type="Animation" id=2]
+resource_name = "fade-in"
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasLayer/Light2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 16.0, 0.0 ]
+}
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
@@ -30,14 +47,15 @@ texture = ExtResource( 3 )
 centered = false
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -128, -3 )
+position = Vector2( 59, 432 )
 
 [node name="CrossHair" type="Sprite" parent="."]
 position = Vector2( -164, 136 )
-z_index = 4096
+z_index = 4095
 texture = ExtResource( 4 )
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -56,7 +74,7 @@ __meta__ = {
 margin_right = 608.0
 margin_bottom = 54.0
 theme = ExtResource( 6 )
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Hud" type="CenterContainer" parent="CanvasLayer/Container"]
 margin_right = 608.0
@@ -81,7 +99,7 @@ margin_bottom = 15.0
 rect_min_size = Vector2( 89, 0 )
 custom_colors/font_color = Color( 0.964706, 0.803922, 0.14902, 1 )
 custom_colors/font_color_shadow = Color( 0.172549, 0.113725, 0.113725, 1 )
-text = "Health: %s/%s"
+text = "Health: 5/5"
 valign = 1
 
 [node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Container/Hud/HealthContainer"]
@@ -92,5 +110,23 @@ rect_min_size = Vector2( 128, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 max_value = 5.0
-value = 5.0
 percent_visible = false
+
+[node name="HealthBarTween" type="Tween" parent="CanvasLayer/Container/Hud/HealthContainer/HealthBar"]
+
+[node name="Light2D" type="Light2D" parent="CanvasLayer"]
+position = Vector2( 304, 171 )
+z_index = -4096
+texture = ExtResource( 8 )
+energy = 6.4
+range_z_min = -4096
+range_z_max = 4096
+range_layer_max = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -5.0
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/fade-in = SubResource( 2 )

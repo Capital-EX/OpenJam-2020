@@ -8,26 +8,31 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "ProtoAngel",
+"language": "GDScript",
+"path": "res://scenes/entities/ProtoAngel.gd"
+} ]
 _global_script_class_icons={
-
+"ProtoAngel": ""
 }
 
 [application]
 
 config/name="Rain Hell"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://scenes/menus/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Angels="*res://autoload/Angels.gd"
+Scoreboard="*res://autoload/Scoreboard.gd"
 
 [display]
 
 window/size/width=608
 window/size/height=342
-window/size/fullscreen=true
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 

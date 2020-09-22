@@ -1,19 +1,21 @@
 extends Area2D
+class_name ProtoAngel
+
 signal shot(object)
 signal killed(object)
 signal prep_completed(object)
+signal attack_started(object)
 signal attack_completed(object)
-signal attack_readied(object)
 
 const HitParticles := preload("res://scenes/entities/HitParticles.tscn")
 const DeathParticles := preload("res://scenes/entities/DeathParticles.tscn")
-const SPAWN_SPEED = 30 / 60.0
-const PREP_SPEED = 12 / 60.0
-const PULL_BACK_WAIT = 15 / 60.0
-const PULL_BACK_SPEED = 15 / 60.0
-const ATTACK_DELAY = 15 / 60.0
-const ATTACK_SPEED = 30 / 60.0
-const REHOME_SPEED = 60 / 60.0
+const SPAWN_SPEED = 15 / 60.0
+const PREP_SPEED = 6 / 60.0
+const PULL_BACK_WAIT = 7.5 / 60.0
+const PULL_BACK_SPEED = 7.5 / 60.0
+const ATTACK_DELAY = 7.5 / 60.0
+const ATTACK_SPEED = 15 / 60.0
+const REHOME_SPEED = 15.0 / 60.0
 
 enum State { Spawning, Idling, Prepping, Attacking, Rehoming }
 
@@ -23,6 +25,7 @@ var Path2DNode : Path2D = null
 var health : int = 4
 var interpolate_progress : float = 0.0
 var original_color : Color = modulate
+var player
 
 onready var ShakeNode = $Sprite/Shake
 onready var BlinkNode = $Blink
@@ -30,7 +33,11 @@ onready var PulseNode = $Pulse
 onready var screen_center = get_viewport_rect().size / 2
 
 func _ready():
-	pass
+	connect("area_entered", self, "_on_area_entered")
+
+func _on_area_entered(area: Area2D):
+	if area.name == "Player" and state == State.Attacking:
+		area.hurt()
 
 func _physics_process(delta):
 	PathFollowNode.unit_offset += delta * 0.3
@@ -52,9 +59,8 @@ func set_path_2d(path_2d: Path2D):
 	
 func spawning(delta):
 	interpolate_progress += 1.0 / SPAWN_SPEED * delta
-	global_position = lerp(Path2DNode.global_position, PathFollowNode.global_position, interpolate_progress)
+	global_position = lerp(screen_center, PathFollowNode.global_position, interpolate_progress)
 	if interpolate_progress >= 1:
-		emit_signal("attack_readied", self)
 		change_state(State.Idling)
 
 func idling(delta):
@@ -63,10 +69,9 @@ func idling(delta):
 func prepping(delta):
 	interpolate_progress += 1.0 / PREP_SPEED * delta
 	interpolate_progress = min(1.0, interpolate_progress)
-	global_position = lerp(PathFollowNode.global_position, Path2DNode.global_position, interpolate_progress)
+	global_position = lerp(PathFollowNode.global_position, screen_center, interpolate_progress)
 	if interpolate_progress >= 1:
 		emit_signal("prep_completed", self)
-		change_state(State.Attacking)
 
 func attacking(delta):
 	pass
@@ -76,7 +81,6 @@ func rehoming(delta):
 	interpolate_progress += 1.0 / REHOME_SPEED * delta
 	global_position = lerp(global_position, PathFollowNode.global_position, interpolate_progress)
 	if interpolate_progress >= 1:
-		emit_signal("attack_readied", self)
 		change_state(State.Idling)
 
 func prep(target_position: Vector2):
@@ -84,6 +88,7 @@ func prep(target_position: Vector2):
 	change_state(State.Prepping)
 	
 func attack(target_position: Vector2):
+	change_state(State.Attacking)
 	var angle = position.angle_to_point(target_position)
 	var pull_back_position = 100 * Vector2(cos(angle), sin(angle))
 	$Tween.interpolate_property(
@@ -100,16 +105,19 @@ func lunge(target_position: Vector2):
 		position, target_position, 
 		ATTACK_SPEED, Tween.TRANS_CUBIC, Tween.EASE_OUT, ATTACK_DELAY
 	)
-	$Tween.connect("tween_all_completed", self, "change_state", [State.Rehoming], CONNECT_ONESHOT)
-	$Tween.connect("tween_started", self, "_on_tween_start", [], CONNECT_ONESHOT)
+	$CollisionShape2D.disabled = false
+	$Tween.connect("tween_started", self, "_on_strike_started", [], CONNECT_ONESHOT)
+	$Tween.connect("tween_all_completed", self, "_on_strike_completed", [], CONNECT_ONESHOT)
 	$Tween.start()
 
-func _on_tween_start(_a, _b):
+func _on_strike_started(_a, _b):
+	emit_signal("attack_started", self)
+
+func _on_strike_completed():
 	emit_signal("attack_completed", self)
+	change_state(State.Rehoming)
 
 
-func check_hit():
-	pass
 
 func hurt():
 	var particle = HitParticles.instance()

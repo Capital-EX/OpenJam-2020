@@ -92,6 +92,7 @@ tracks/0/keys = {
 "Angels",
 "ProtoAngels",
 ]]
+collision_mask = 0
 
 [node name="Tween" type="Tween" parent="."]
 playback_process_mode = 0

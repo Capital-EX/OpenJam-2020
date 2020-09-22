@@ -45,7 +45,6 @@ func _on_area_exit(area: Area2D) -> void:
 		last_area = null
 
 func _check_hit(_a, _b, hit_point):
-	print(hit_point, last_area)
 	if last_area != null and last_area.has_method("hurt"):
 		last_area.hurt()
 		queue_free()

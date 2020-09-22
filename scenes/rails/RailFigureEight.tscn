@@ -12,4 +12,5 @@ __meta__ = {
 }
 
 [node name="Path2D" type="Path2D" parent="."]
+position = Vector2( 0, -35 )
 curve = SubResource( 1 )
